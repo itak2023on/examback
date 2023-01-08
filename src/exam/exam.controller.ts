@@ -1,10 +1,10 @@
 import { Controller, Injectable, NestMiddleware,UseGuards,Session, Req, Get, Post,HttpCode, Header, Redirect, Query, Param, Body, Res, HttpStatus, Delete, Put   } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
-import { ExamService } from './exam.service';
+import { CreateQuestionDto, ExamService } from './exam.service';
 // import { AuthGuard } from './auth.guard';
 // import { RolesGuard } from './roles.guard';
 
-// import { CreateCatDto} from './create-cat.dto';
+import { CreateqDTO} from './createq.dto';
 
 @Controller('exam')
 // @UseGuards(RolesGuard)
@@ -42,8 +42,11 @@ export class ExamController {
     @Get('answers/:id')   
     @Header('Access-Control-Expose-Headers', 'X-Total-Count')
     @Header('X-Total-Count', '10')
-    getAnswer(@Param('id') id) {
-      return this.examService.getAnswer(id);
+    async getAnswer(@Param('id') id) {
+      let x = this.examService.getAnswer(id); console.log('x', x)
+     
+      // res.status(HttpStatus.AMBIGUOUS).send();
+      return x;
       
     }
 
@@ -58,7 +61,7 @@ export class ExamController {
     @Post('answers')   
     @Header('Access-Control-Expose-Headers', 'X-Total-Count')
     @Header('X-Total-Count', '10')
-    postAnswer( @Body() ans) {
+    postAnswer( @Body() ans: CreateqDTO) {
       return this.examService.postAnswer(ans);
       
     }
